@@ -22,27 +22,36 @@ public final class AppModel {
 
     public func processInput(_ input: String) {
         if self.isSinglePlayerMode {
-            if let guess = Int(input) {
-                if guess < self.answer {
-                    self.output = "Your guess is too low." + "\n" + "Enter your guess: "
-                } else if guess > self.answer {
-                    self.output = "Your guess is too high." + "\n" + "Enter your guess: "
-                } else if guess == self.answer {
-                    self.output = "Correct!: "
-                }
-            }
+            processSinglePlayerGame(input)
         } else {
-            if input == "1" {
-                self.output =
-         """
+            processModeSelection(input)
+        }
+    }
+
+    private func processModeSelection(_ input: String) {
+        if input == "1" {
+            self.output =
+                """
         Single player game
         I'm thinking of a number between 1 and 100
         """ + "\n" + "Enter your guess: "
-                self.isSinglePlayerMode = true
-                return
-            } else if input == "3" {
-                self.isCompleted = true
-                return
+            self.isSinglePlayerMode = true
+            return
+        } else {
+            self.isCompleted = true
+            return
+        }
+    }
+
+
+    private func processSinglePlayerGame(_ input: String) {
+        if let guess = Int(input) {
+            if guess < self.answer {
+                self.output = "Your guess is too low." + "\n" + "Enter your guess: "
+            } else if guess > self.answer {
+                self.output = "Your guess is too high." + "\n" + "Enter your guess: "
+            } else {
+                self.output = "Correct!: "
             }
         }
     }
