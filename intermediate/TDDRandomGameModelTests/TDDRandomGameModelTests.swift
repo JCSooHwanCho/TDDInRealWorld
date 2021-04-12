@@ -103,4 +103,24 @@ class TDDRandomGameModelTests: XCTestCase {
             XCTAssertTrue(actual.hasPrefix(expected), "failed value: \(answer)")
         }
     }
+
+    func testSutCorrectlyPrintsGuessCountIfSinglePlayerGameFinished() throws {
+        let testCases = [1, 10, 100]
+
+        for fails in testCases {
+            let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
+            sut.processInput("1")
+
+            for _ in 0..<fails {
+                sut.processInput("30")
+            }
+            _ = sut.flushOutput()
+
+            sut.processInput("50")
+
+            let actual = sut.flushOutput()
+
+            XCTAssertTrue(actual.contains("\(fails + 1) guesses.\n"), "failed value: \(fails)")
+        }
+    }
 }
