@@ -9,10 +9,16 @@ import XCTest
 @testable import TDDRandomGameModel
 
 class TDDRandomGameModelTests: XCTestCase {
-    func testSutISImcompletedWhenItIsInitialized() throws {
+    func testSutIsImcompletedWhenItIsInitialized() throws {
         let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
         let actual = sut.isCompleted
         XCTAssertFalse(actual)
     }
 
+    func testSutCollectlyPrintsSelectModeMessage() throws {
+        let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
+        let actual = sut.flushOutput()
+
+        XCTAssertEqual(actual, "1: Single player game" + "\n" + "2: Multiplayer game" + "\n" + "3: Exit" + "\n" + "Enter selection: ")
+    }
 }
