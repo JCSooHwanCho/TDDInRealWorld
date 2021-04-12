@@ -162,4 +162,21 @@ class TDDRandomGameModelTests: XCTestCase {
 
         XCTAssertTrue(actual)
     }
+
+    func testSutGeneratesAnserForEachGame() throws {
+        let source = "1, 10, 100"
+        let answers = source.split(separator: ",").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.compactMap { Int($0) }
+
+        let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: answers))
+
+        for answer in answers {
+            sut.processInput("1")
+            _ = sut.flushOutput()
+            sut.processInput("\(answer)")
+        }
+
+        let actual = sut.flushOutput()
+
+        XCTAssertTrue(actual.hasPrefix("Correct! "), actual)
+    }
 }
