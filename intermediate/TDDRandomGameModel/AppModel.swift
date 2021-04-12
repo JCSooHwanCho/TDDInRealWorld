@@ -36,6 +36,8 @@ public final class AppModel {
         if let guess = Int(input) {
             if guess < self.answer {
                 self.output = "Your guess is too low." + "\n" + "Enter your guess: "
+            } else if guess > self.answer {
+                self.output = "Your guess is too high." + "\n" + "Enter your guess: "
             }
         }
     }
