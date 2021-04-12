@@ -85,4 +85,22 @@ class TDDRandomGameModelTests: XCTestCase {
             XCTAssertEqual(actual, expected)
         }
     }
+
+    func testSutCorrectlyPrintsCorrectMessageInSinglePlayerGame() throws {
+        let testCases = [1, 3, 10, 100]
+
+        for answer in testCases {
+            let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: answer))
+
+            sut.processInput("1")
+            _ = sut.flushOutput()
+            let guess = answer
+            sut.processInput("\(guess)")
+
+            let actual = sut.flushOutput()
+
+            let expected = "Correct!: "
+            XCTAssertTrue(actual.hasPrefix(expected), "failed value: \(answer)")
+        }
+    }
 }

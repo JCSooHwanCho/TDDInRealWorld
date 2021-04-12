@@ -16,7 +16,7 @@ public final class AppModel {
 
     public var isCompleted: Bool = false
 
-    public func flushOutput() -> String? {
+    public func flushOutput() -> String {
         return self.output
     }
 
