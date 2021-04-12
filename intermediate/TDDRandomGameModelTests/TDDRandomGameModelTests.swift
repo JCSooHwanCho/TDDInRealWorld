@@ -24,8 +24,7 @@ class TDDRandomGameModelTests: XCTestCase {
     1: Single player game
     2: Multiplayer game
     3: Exit
-    """
-        + "\n" + "Enter selection: " // Xcode가 trailing whitespace를 자동으로 없애기 때문에 이 라인은 별도로 설정
+    """ + "\n" + "Enter selection: " // Xcode가 trailing whitespace를 자동으로 없애기 때문에 이 라인은 별도로 설정
         XCTAssertEqual(actual, expected)
     }
 
@@ -49,8 +48,7 @@ class TDDRandomGameModelTests: XCTestCase {
      """
     Single player game
     I'm thinking of a number between 1 and 100
-    """
-        + "\n" + "Enter your guess: "
+    """ + "\n" + "Enter your guess: "
         XCTAssertEqual(actual, expected)
     }
 }
