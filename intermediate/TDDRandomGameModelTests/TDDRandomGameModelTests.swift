@@ -19,7 +19,14 @@ class TDDRandomGameModelTests: XCTestCase {
         let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
         let actual = sut.flushOutput()
 
-        XCTAssertEqual(actual, "1: Single player game" + "\n" + "2: Multiplayer game" + "\n" + "3: Exit" + "\n" + "Enter selection: ")
+        let expected =
+     """
+    1: Single player game
+    2: Multiplayer game
+    3: Exit
+    """
+        + "\n" + "Enter selection: " // Xcode가 trailing whitespace를 자동으로 없애기 때문에 이 라인은 별도로 설정
+        XCTAssertEqual(actual, expected)
     }
 
     func testSubCorrectlyExits() throws {
@@ -29,5 +36,21 @@ class TDDRandomGameModelTests: XCTestCase {
         let actual = sut.isCompleted
 
         XCTAssertTrue(actual)
+    }
+
+    func testSutCorrectlyPrintsSinglePlayerGameStartMessage() throws {
+        let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
+        _ = sut.flushOutput()
+        sut.processInput("1")
+
+        let actual = sut.flushOutput()
+
+        let expected =
+     """
+    Single player game
+    I'm thinking of a number between 1 and 100
+    """
+        + "\n" + "Enter your guess: "
+        XCTAssertEqual(actual, expected)
     }
 }
