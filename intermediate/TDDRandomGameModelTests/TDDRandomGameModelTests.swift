@@ -21,4 +21,13 @@ class TDDRandomGameModelTests: XCTestCase {
 
         XCTAssertEqual(actual, "1: Single player game" + "\n" + "2: Multiplayer game" + "\n" + "3: Exit" + "\n" + "Enter selection: ")
     }
+
+    func testSubCorrectlyExits() throws {
+        let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
+        sut.processInput("3")
+
+        let actual = sut.isCompleted
+
+        XCTAssertTrue(actual)
+    }
 }
