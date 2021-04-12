@@ -3,9 +3,7 @@ import TDDRandomGameModel
 
 private func runMainLoop(_ model: AppModel, _ scanner: () -> String) {
     while !model.isCompleted {
-        if let output = model.flushOutput() {
-            print(output)
-        }
+        print(model.flushOutput())
 
         model.processInput(scanner())
     }
