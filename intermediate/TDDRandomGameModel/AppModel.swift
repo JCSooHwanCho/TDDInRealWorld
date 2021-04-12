@@ -1,6 +1,12 @@
 import Foundation
 
 public final class AppModel {
+    private static let selectModeMessage =
+    """
+    1: Single player game
+    2: Multiplayer game
+    3: Exit
+    """ + "\n" + "Enter selection: "
     private let answer: Int
     private var output: String
     public var isCompleted: Bool = false
@@ -8,12 +14,7 @@ public final class AppModel {
     private var tries: Int = 0
     public init(generator: PositiveIntegerGeneratable) {
         self.answer = generator.generateLessThanOrEqualToHundread()
-        self.output = """
-    1: Single player game
-    2: Multiplayer game
-    3: Exit
-    """
-        + "\n" + "Enter selection: "
+        self.output = Self.selectModeMessage
     }
 
     public func flushOutput() -> String {
@@ -54,13 +55,7 @@ public final class AppModel {
                 self.output = "Your guess is too high." + "\n" + "Enter your guess: "
             } else {
                 let guessLiteral = self.tries == 1 ? "guess." : "guesses."
-                self.output = "Correct!: \(self.tries) \(guessLiteral)\n" +
-                """
-            1: Single player game
-            2: Multiplayer game
-            3: Exit
-            """
-                + "\n" + "Enter selection: "
+                self.output = "Correct!: \(self.tries) \(guessLiteral)\n" + Self.selectModeMessage
             }
         }
     }
