@@ -123,4 +123,15 @@ class TDDRandomGameModelTests: XCTestCase {
             XCTAssertTrue(actual.contains("\(fails + 1) guesses.\n"), "failed value: \(fails)")
         }
     }
+
+    func testSutCorrectlyPrintsOneGuessIfSinglePlayerGameFinished() {
+        let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
+        sut.processInput("1")
+        _ = sut.flushOutput()
+        sut.processInput("50")
+
+        let actual = sut.flushOutput()
+
+        XCTAssertTrue(actual.contains("1 guess."), actual)
+    }
 }
