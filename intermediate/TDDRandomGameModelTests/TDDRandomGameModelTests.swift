@@ -99,7 +99,7 @@ class TDDRandomGameModelTests: XCTestCase {
 
             let actual = sut.flushOutput()
 
-            let expected = "Correct!: "
+            let expected = "Correct! "
             XCTAssertTrue(actual.hasPrefix(expected), "failed value: \(answer)")
         }
     }

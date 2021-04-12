@@ -7,13 +7,15 @@ public final class AppModel {
     2: Multiplayer game
     3: Exit
     """ + "\n" + "Enter selection: "
-    private let answer: Int
+    private let generator: PositiveIntegerGeneratable
     private var output: String
     public var isCompleted: Bool = false
     private var isSinglePlayerMode: Bool = false
     private var tries: Int = 0
+    private var answer: Int = 0
+
     public init(generator: PositiveIntegerGeneratable) {
-        self.answer = generator.generateLessThanOrEqualToHundread()
+        self.generator = generator
         self.output = Self.selectModeMessage
     }
 
@@ -37,10 +39,9 @@ public final class AppModel {
         I'm thinking of a number between 1 and 100
         """ + "\n" + "Enter your guess: "
             self.isSinglePlayerMode = true
-            return
+            self.answer = self.generator.generateLessThanOrEqualToHundread()
         } else {
             self.isCompleted = true
-            return
         }
     }
 
@@ -55,7 +56,7 @@ public final class AppModel {
                 self.output = "Your guess is too high." + "\n" + "Enter your guess: "
             } else {
                 let guessLiteral = self.tries == 1 ? "guess." : "guesses."
-                self.output = "Correct!: \(self.tries) \(guessLiteral)\n" + Self.selectModeMessage
+                self.output = "Correct! \(self.tries) \(guessLiteral)\n" + Self.selectModeMessage
                 self.isSinglePlayerMode = false
             }
         }
