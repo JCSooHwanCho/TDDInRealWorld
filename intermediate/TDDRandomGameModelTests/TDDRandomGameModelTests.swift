@@ -151,4 +151,15 @@ class TDDRandomGameModelTests: XCTestCase {
     """ + "\n" + "Enter selection: " // Xcode가 trailing whitespace를 자동으로 없애기 때문에 이 라인은 별도로 설정
         XCTAssertTrue(actual.hasSuffix(expected), actual)
     }
+
+    func testSutReturnsToModeSelectionIfSinglePlayerGameFinished() throws {
+        let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
+        sut.processInput("1")
+        sut.processInput("50")
+        sut.processInput("3")
+
+        let actual = sut.isCompleted
+
+        XCTAssertTrue(actual)
+    }
 }
