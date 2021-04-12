@@ -53,7 +53,8 @@ public final class AppModel {
             } else if guess > self.answer {
                 self.output = "Your guess is too high." + "\n" + "Enter your guess: "
             } else {
-                self.output = "Correct!: \(self.tries) guesses.\n"
+                let guessLiteral = self.tries == 1 ? "guess." : "guesses."
+                self.output = "Correct!: \(self.tries) \(guessLiteral)\n"
             }
         }
     }
