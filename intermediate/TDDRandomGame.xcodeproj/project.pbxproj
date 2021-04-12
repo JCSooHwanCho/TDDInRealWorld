@@ -16,6 +16,7 @@
 		422D334C2623FB97002047D3 /* RandomGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422D334B2623FB97002047D3 /* RandomGenerator.swift */; };
 		422D33542623FBAD002047D3 /* TDDRandomGameModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422D33152623F990002047D3 /* TDDRandomGameModel.framework */; };
 		422D33552623FBAD002047D3 /* TDDRandomGameModel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 422D33152623F990002047D3 /* TDDRandomGameModel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		422D336C26243E98002047D3 /* PositiveNumberGeneratorStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422D336B26243E98002047D3 /* PositiveNumberGeneratorStub.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		422D33372623F9BB002047D3 /* PositiveIntegerGeneratable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositiveIntegerGeneratable.swift; sourceTree = "<group>"; };
 		422D333F2623FA29002047D3 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		422D334B2623FB97002047D3 /* RandomGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomGenerator.swift; sourceTree = "<group>"; };
+		422D336B26243E98002047D3 /* PositiveNumberGeneratorStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositiveNumberGeneratorStub.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 			children = (
 				422D33222623F990002047D3 /* TDDRandomGameModelTests.swift */,
 				422D33242623F990002047D3 /* Info.plist */,
+				422D336B26243E98002047D3 /* PositiveNumberGeneratorStub.swift */,
 			);
 			path = TDDRandomGameModelTests;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				422D33232623F990002047D3 /* TDDRandomGameModelTests.swift in Sources */,
+				422D336C26243E98002047D3 /* PositiveNumberGeneratorStub.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
