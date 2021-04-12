@@ -5,7 +5,7 @@ public final class AppModel {
     private var output: String
     public var isCompleted: Bool = false
     private var isSinglePlayerMode: Bool = false
-
+    private var tries: Int = 0
     public init(generator: PositiveIntegerGeneratable) {
         self.answer = generator.generateLessThanOrEqualToHundread()
         self.output = """
@@ -45,13 +45,15 @@ public final class AppModel {
 
 
     private func processSinglePlayerGame(_ input: String) {
+        self.tries += 1
+
         if let guess = Int(input) {
             if guess < self.answer {
                 self.output = "Your guess is too low." + "\n" + "Enter your guess: "
             } else if guess > self.answer {
                 self.output = "Your guess is too high." + "\n" + "Enter your guess: "
             } else {
-                self.output = "Correct!: "
+                self.output = "Correct!: \(self.tries) guesses.\n"
             }
         }
     }
