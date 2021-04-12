@@ -1,11 +1,11 @@
 import Foundation
 
 public final class AppModel {
-    let generator: PositiveIntegerGeneratable
-    var output: String
+    private let answer: Int
+    private var output: String
 
     public init(generator: PositiveIntegerGeneratable) {
-        self.generator = generator
+        self.answer = generator.generateLessThanOrEqualToHundread()
         self.output = """
     1: Single player game
     2: Multiplayer game
@@ -27,8 +27,16 @@ public final class AppModel {
     Single player game
     I'm thinking of a number between 1 and 100
     """ + "\n" + "Enter your guess: "
+            return
         } else if input == "3" {
             self.isCompleted = true
+            return
+        }
+
+        if let guess = Int(input) {
+            if guess < self.answer {
+                self.output = "Your guess is too low." + "\n" + "Enter your guess: "
+            }
         }
     }
 }
