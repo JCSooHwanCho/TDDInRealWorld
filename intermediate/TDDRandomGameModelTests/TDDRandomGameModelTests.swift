@@ -68,4 +68,21 @@ class TDDRandomGameModelTests: XCTestCase {
             XCTAssertEqual(actual, expected)
         }
     }
+
+    func testSutCorrectlyPrintsTooHighMessageInSinglePlayerGame() throws {
+        let testCases = [(50, 60), (80, 81)]
+
+        for (answer, guess) in testCases {
+            let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: answer))
+
+            sut.processInput("1")
+            _ = sut.flushOutput()
+            sut.processInput("\(guess)")
+
+            let actual = sut.flushOutput()
+
+            let expected = "Your guess is too high." + "\n" + "Enter your guess: "
+            XCTAssertEqual(actual, expected)
+        }
+    }
 }
