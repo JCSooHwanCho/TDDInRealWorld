@@ -134,4 +134,21 @@ class TDDRandomGameModelTests: XCTestCase {
 
         XCTAssertTrue(actual.contains("1 guess."), actual)
     }
+
+    func testSutPrintsSelectModeMessageIfSinglePlayerGameFinished() throws {
+        let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
+        sut.processInput("1")
+        _ = sut.flushOutput()
+        sut.processInput("50")
+
+        let actual = sut.flushOutput()
+
+        let expected =
+     """
+    1: Single player game
+    2: Multiplayer game
+    3: Exit
+    """ + "\n" + "Enter selection: " // Xcode가 trailing whitespace를 자동으로 없애기 때문에 이 라인은 별도로 설정
+        XCTAssertTrue(actual.hasSuffix(expected), actual)
+    }
 }
