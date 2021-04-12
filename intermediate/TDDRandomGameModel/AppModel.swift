@@ -56,6 +56,7 @@ public final class AppModel {
             } else {
                 let guessLiteral = self.tries == 1 ? "guess." : "guesses."
                 self.output = "Correct!: \(self.tries) \(guessLiteral)\n" + Self.selectModeMessage
+                self.isSinglePlayerMode = false
             }
         }
     }
