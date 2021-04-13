@@ -170,4 +170,28 @@ class TDDRandomGameModelMultiPlayerModeTests: XCTestCase {
             XCTAssertTrue(actual.hasPrefix("Correct! "), actual)
         }
     }
+
+    func testSutCorrectlyPrintsWinnerIfMultiplayerGameFinished() {
+        let testCases = [(0, "Foo"),
+                        (1, "Bar"),
+                        (99, "Foo"),
+                        (100, "Bar")]
+
+        for (fails, winner) in testCases {
+            let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
+            sut.processInput("2")
+            sut.processInput("Foo, Bar, Baz")
+
+            for _ in 0..<fails {
+                sut.processInput("30")
+            }
+
+            _ = sut.flushOutput()
+            sut.processInput("50")
+
+            let actual = sut.flushOutput()
+
+            XCTAssertTrue(actual.contains("\(winner) wins." + "\n"))
+        }
+    }
 }
