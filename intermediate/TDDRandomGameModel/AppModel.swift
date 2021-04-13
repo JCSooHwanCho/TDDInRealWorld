@@ -82,7 +82,11 @@ public final class AppModel {
             return Processor { [weak self] _ in
                 self?.output = "Enter \(players[1])'s guess: "
 
-                return .none
+                return Processor { [weak self] _ in
+                    self?.output = "Enter \(players[2])'s guess: "
+
+                    return .none
+                }
             }
         }
     }
