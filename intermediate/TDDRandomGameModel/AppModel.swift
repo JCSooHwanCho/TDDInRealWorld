@@ -88,11 +88,12 @@ public final class AppModel {
     }
 
     private func getMultiPlayerGameProcessor(_ players: [String], tries: Int) -> Processor {
-        self.outputBuffer.append("Enter \(players[(tries - 1) % players.count])'s guess: ")
+        let player = players[(tries - 1) % players.count]
+        self.outputBuffer.append("Enter \(player)'s guess: ")
 
         return Processor { [weak self] _ in
             guard let self = self else { return .none }
-            self.outputBuffer.append("\(players[(tries - 1) % players.count])'s guess is too low" + "\n")
+            self.outputBuffer.append("\(player)'s guess is too low" + "\n")
             return self.getMultiPlayerGameProcessor(players, tries: tries + 1)
         }
     }
