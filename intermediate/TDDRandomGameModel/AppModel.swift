@@ -34,20 +34,26 @@ public final class AppModel {
         self.processor = self.processor(input: input)
     }
 
+    private func print(_ message: String) {
+        self.outputBuffer.append(message)
+    }
+
+    private func println(_ message: String) {
+        self.outputBuffer.append(message + "\n")
+    }
+
     private func processModeSelection(_ input: String) -> Processor {
         if input == "1" {
-            self.outputBuffer.append(
-                """
-        Single player game
-        I'm thinking of a number between 1 and 100
-        """ + "\n" + "Enter your guess: "
-                )
+            self.println("Single player game")
+            self.println("I'm thinking of a number between 1 and 100")
+            self.print("Enter your guess: ")
             self.isSinglePlayerMode = true
 
             return self.getSinglePlayerGameProcessor(answer: self.generator.generateLessThanOrEqualToHundread(),
                                                      tries: 1)
         } else if input == "2" {
-            self.outputBuffer.append("Multiplayer game" + "\n" + "Enter player names separated with commas: ")
+            self.println("Multiplayer game")
+            self.print("Enter player names separated with commas: ")
             return self.startMultiPlayerGameProcessor(answer: self.generator.generateLessThanOrEqualToHundread())
         }else {
             self.isCompleted = true
@@ -63,14 +69,17 @@ public final class AppModel {
             else { return .none }
 
             if guess < answer {
-                self.outputBuffer.append("Your guess is too low." + "\n" + "Enter your guess: ")
+                self.println("Your guess is too low.")
+                self.print("Enter your guess: ")
                 return self.getSinglePlayerGameProcessor(answer: answer, tries: tries + 1)
             } else if guess > answer {
-                self.outputBuffer.append("Your guess is too high." + "\n" + "Enter your guess: ")
+                self.println("Your guess is too high.")
+                self.print("Enter your guess: ")
                 return self.getSinglePlayerGameProcessor(answer: answer, tries: tries + 1)
             } else {
                 let guessLiteral = tries == 1 ? "guess." : "guesses."
-                self.outputBuffer.append("Correct! \(tries) \(guessLiteral)\n" + Self.selectModeMessage)
+                self.println("Correct! \(tries) \(guessLiteral)")
+                self.print(Self.selectModeMessage)
                 self.isSinglePlayerMode = false
 
                 return Processor(closure: self.processModeSelection(_:))
@@ -82,38 +91,36 @@ public final class AppModel {
         return Processor { [weak self] input in
             guard let self = self else { return .none }
             let players = input.split(separator: ",").map { String($0).trimmingCharacters(in: .whitespacesAndNewlines) }
-            self.outputBuffer.append("I'm thinking of a number between 1 and 100.")
+            self.print("I'm thinking of a number between 1 and 100.")
             return self.getMultiPlayerGameProcessor(players, answer: answer, tries: 1)
         }
     }
 
     private func getMultiPlayerGameProcessor(_ players: [String], answer: Int, tries: Int) -> Processor {
         let player = players[(tries - 1) % players.count]
-        self.outputBuffer.append("Enter \(player)'s guess: ")
+        self.print("Enter \(player)'s guess: ")
 
         return Processor { [weak self] input in
             guard let self = self,
                   let guess = Int(input) else { return .none }
 
             if guess < answer {
-                self.outputBuffer.append("\(player)'s guess is too low." + "\n")
+                self.println("\(player)'s guess is too low.")
                 return self.getMultiPlayerGameProcessor(players, answer: answer, tries: tries + 1)
             } else if guess > answer {
-                self.outputBuffer.append("\(player)'s guess is too high." + "\n")
+                self.println("\(player)'s guess is too high.")
                 return self.getMultiPlayerGameProcessor(players, answer: answer, tries: tries + 1)
             } else {
-                self.outputBuffer.append("Correct! ")
-                self.outputBuffer.append("\(player) wins." + "\n")
-                self.outputBuffer.append(Self.selectModeMessage)
+                self.println("Correct! \(player) wins.")
+                self.print(Self.selectModeMessage)
 
                 return Processor(closure: self.processModeSelection(_:))
             }
-
         }
     }
 }
 
-final class Processor {
+fileprivate final class Processor {
     static let none: Processor = Processor(closure: nil)
 
     init(closure: ((String) -> Processor)?) {
