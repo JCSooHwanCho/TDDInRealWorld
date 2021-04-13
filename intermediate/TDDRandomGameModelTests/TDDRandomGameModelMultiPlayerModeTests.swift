@@ -214,4 +214,17 @@ class TDDRandomGameModelMultiPlayerModeTests: XCTestCase {
 
         XCTAssertTrue(actual.hasSuffix(expected), actual)
     }
+
+    func testSutReturnsToModeSelectionIfMultiplyerGameFinished() {
+        let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
+
+        sut.processInput("2")
+        sut.processInput("Foo, Bar, Baz'")
+        sut.processInput("20")
+        sut.processInput("50")
+        sut.processInput("3")
+
+        let actual = sut.isCompleted
+        XCTAssertTrue(actual)
+    }
 }
