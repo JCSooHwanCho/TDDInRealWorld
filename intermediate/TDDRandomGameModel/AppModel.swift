@@ -91,7 +91,7 @@ public final class AppModel {
         return Processor { [weak self] input in
             guard let self = self else { return .none }
             let players = input.split(separator: ",").map { String($0).trimmingCharacters(in: .whitespacesAndNewlines) }
-            self.print("I'm thinking of a number between 1 and 100.")
+            self.println("I'm thinking of a number between 1 and 100.")
             return self.getMultiPlayerGameProcessor(players, answer: answer, tries: 1)
         }
     }
