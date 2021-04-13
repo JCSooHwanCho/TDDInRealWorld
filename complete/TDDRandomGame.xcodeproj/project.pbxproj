@@ -76,6 +76,7 @@
 		422D336B26243E98002047D3 /* PositiveNumberGeneratorStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositiveNumberGeneratorStub.swift; sourceTree = "<group>"; };
 		42AE5353262522B900E1F1EA /* TDDRandomGameModelSinglePlayerModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDDRandomGameModelSinglePlayerModeTests.swift; sourceTree = "<group>"; };
 		42AE53572625237E00E1F1EA /* TDDRandomGameModelMultiPlayerModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDDRandomGameModelMultiPlayerModeTests.swift; sourceTree = "<group>"; };
+		42AE535D26255DC000E1F1EA /* TDDRandomGameModel.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = file; name = TDDRandomGameModel.xctestplan; path = TDDRandomGameModelTests/TDDRandomGameModel.xctestplan; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +143,7 @@
 				422D33182623F990002047D3 /* Info.plist */,
 				422D33372623F9BB002047D3 /* PositiveIntegerGeneratable.swift */,
 				422D333F2623FA29002047D3 /* AppModel.swift */,
+				42AE535D26255DC000E1F1EA /* TDDRandomGameModel.xctestplan */,
 			);
 			path = TDDRandomGameModel;
 			sourceTree = "<group>";

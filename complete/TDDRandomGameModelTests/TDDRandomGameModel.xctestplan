@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "79925377-DDFC-468D-8F1E-5C58310D1E4C",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:TDDRandomGame.xcodeproj",
+        "identifier" : "422D331C2623F990002047D3",
+        "name" : "TDDRandomGameModelTests"
+      }
+    }
+  ],
+  "version" : 1
+}
