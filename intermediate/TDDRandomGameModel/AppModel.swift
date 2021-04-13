@@ -102,6 +102,9 @@ public final class AppModel {
             } else {
                 self.outputBuffer.append("Correct! ")
                 self.outputBuffer.append("\(player) wins." + "\n")
+                self.outputBuffer.append(Self.selectModeMessage)
+
+                return .none
             }
             return self.getMultiPlayerGameProcessor(players, answer: answer, tries: tries + 1)
         }
