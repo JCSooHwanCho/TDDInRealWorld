@@ -27,7 +27,7 @@ class TDDRandomGameModelMultiPlayerModeTests: XCTestCase {
 
         let actual = sut.flushOutput()
 
-        XCTAssertTrue(actual.hasPrefix("I'm thinking of a number between 1 and 100."), actual)
+        XCTAssertTrue(actual.hasPrefix("I'm thinking of a number between 1 and 100." + "\n"), actual)
     }
 
     func testSutCorrectlyPromptsFirstPlayerName() {
