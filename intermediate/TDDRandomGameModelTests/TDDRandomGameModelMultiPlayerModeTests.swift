@@ -18,4 +18,15 @@ class TDDRandomGameModelMultiPlayerModeTests: XCTestCase {
 
         XCTAssertEqual(actual, "Multiplayer game" + "\n" + "Enter player names separated with commas: ")
     }
+
+    func testSutCorrectlyPrintsMultiplayerGameStartMessage() {
+        let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
+        sut.processInput("2")
+        _ = sut.flushOutput()
+        sut.processInput("foo, Bar")
+
+        let actual = sut.flushOutput()
+
+        XCTAssertTrue(actual.hasPrefix("I'm thinking of a number between 1 and 100."))
+    }
 }
