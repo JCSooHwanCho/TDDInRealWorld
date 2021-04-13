@@ -43,8 +43,10 @@ public final class AppModel {
                                                      tries: 1)
         } else if input == "2" {
             self.output = "Multiplayer game" + "\n" + "Enter player names separated with commas: "
-            return Processor { [weak self] _ in
+            return Processor { [weak self] input in
+                let players = input.split(separator: ",").map { String($0) }
                 self?.output = "I'm thinking of a number between 1 and 100."
+                self?.output += "Enter \(players[0])'s guess: "
 
                 return .none
             }
