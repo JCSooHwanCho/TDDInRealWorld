@@ -11,7 +11,7 @@ public final class AppModel {
     public var isCompleted: Bool = false
 
     private let generator: PositiveIntegerGeneratable
-    private var output: String
+    private var outputBuffer: [String]
     private var isSinglePlayerMode: Bool = false
     private lazy var processor: Processor = {
         return Processor(closure: self.processModeSelection(_:))
@@ -19,11 +19,15 @@ public final class AppModel {
 
     public init(generator: PositiveIntegerGeneratable) {
         self.generator = generator
-        self.output = Self.selectModeMessage
+        self.outputBuffer = [Self.selectModeMessage]
     }
 
     public func flushOutput() -> String {
-        return self.output
+        defer {
+            self.outputBuffer.removeAll()
+        }
+
+        return self.outputBuffer.joined()
     }
 
     public func processInput(_ input: String) {
@@ -32,18 +36,19 @@ public final class AppModel {
 
     private func processModeSelection(_ input: String) -> Processor {
         if input == "1" {
-            self.output =
+            self.outputBuffer.append(
                 """
         Single player game
         I'm thinking of a number between 1 and 100
         """ + "\n" + "Enter your guess: "
+                )
             self.isSinglePlayerMode = true
 
             return self.getSinglePlayerGameProcessor(answer: self.generator.generateLessThanOrEqualToHundread(),
                                                      tries: 1)
         } else if input == "2" {
-            self.output = "Multiplayer game" + "\n" + "Enter player names separated with commas: "
-            return self.getMultiPlayerGameProcessor()
+            self.outputBuffer.append("Multiplayer game" + "\n" + "Enter player names separated with commas: ")
+            return self.startMultiPlayerGameProcessor()
         }else {
             self.isCompleted = true
 
@@ -58,14 +63,14 @@ public final class AppModel {
             else { return .none }
 
             if guess < answer {
-                self.output = "Your guess is too low." + "\n" + "Enter your guess: "
+                self.outputBuffer.append("Your guess is too low." + "\n" + "Enter your guess: ")
                 return self.getSinglePlayerGameProcessor(answer: answer, tries: tries + 1)
             } else if guess > answer {
-                self.output = "Your guess is too high." + "\n" + "Enter your guess: "
+                self.outputBuffer.append("Your guess is too high." + "\n" + "Enter your guess: ")
                 return self.getSinglePlayerGameProcessor(answer: answer, tries: tries + 1)
             } else {
                 let guessLiteral = tries == 1 ? "guess." : "guesses."
-                self.output = "Correct! \(tries) \(guessLiteral)\n" + Self.selectModeMessage
+                self.outputBuffer.append("Correct! \(tries) \(guessLiteral)\n" + Self.selectModeMessage)
                 self.isSinglePlayerMode = false
 
                 return Processor(closure: self.processModeSelection(_:))
@@ -73,21 +78,21 @@ public final class AppModel {
         }
     }
 
-    private func getMultiPlayerGameProcessor() -> Processor {
+    private func startMultiPlayerGameProcessor() -> Processor {
         return Processor { [weak self] input in
+            guard let self = self else { return .none }
             let players = input.split(separator: ",").map { String($0).trimmingCharacters(in: .whitespacesAndNewlines) }
-            self?.output = "I'm thinking of a number between 1 and 100."
-            self?.output += "Enter \(players[0])'s guess: "
+            self.outputBuffer.append("I'm thinking of a number between 1 and 100.")
+            return self.getMultiPlayerGameProcessor(players, tries: 1)
+        }
+    }
 
-            return Processor { [weak self] _ in
-                self?.output = "Enter \(players[1])'s guess: "
+    private func getMultiPlayerGameProcessor(_ players: [String], tries: Int) -> Processor {
+        self.outputBuffer.append("Enter \(players[tries - 1])'s guess: ")
 
-                return Processor { [weak self] _ in
-                    self?.output = "Enter \(players[2])'s guess: "
-
-                    return .none
-                }
-            }
+        return Processor { [weak self] _ in
+            guard let self = self else { return .none }
+            return self.getMultiPlayerGameProcessor(players, tries: tries + 1)
         }
     }
 }
