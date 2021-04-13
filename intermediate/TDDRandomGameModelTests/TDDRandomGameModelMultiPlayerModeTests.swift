@@ -65,4 +65,25 @@ class TDDRandomGameModelMultiPlayerModeTests: XCTestCase {
             XCTAssertTrue(actual.hasSuffix("Enter " + player2 + "'s guess: "), actual)
         }
     }
+
+    func testSutCorrectlyPromptsThirdPlayerName() {
+        let testCases = [("Foo", "Bar", "Baz"),
+                         ("Bar", "Baz", "Foo"),
+                         ("Baz", "Foo", "Bar")]
+
+        for (player1, player2, player3) in testCases {
+            let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
+            sut.processInput("2")
+            _ = sut.flushOutput()
+            sut.processInput([player1, player2, player3].joined(separator: ", "))
+            _ = sut.flushOutput()
+            sut.processInput("90")
+            _ = sut.flushOutput()
+            sut.processInput("90")
+
+            let actual = sut.flushOutput()
+
+            XCTAssertTrue(actual.hasSuffix("Enter " + player3 + "'s guess: "), actual)
+        }
+    }
 }
