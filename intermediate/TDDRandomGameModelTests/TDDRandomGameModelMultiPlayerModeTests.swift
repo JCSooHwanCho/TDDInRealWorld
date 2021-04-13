@@ -194,4 +194,24 @@ class TDDRandomGameModelMultiPlayerModeTests: XCTestCase {
             XCTAssertTrue(actual.contains("\(winner) wins." + "\n"))
         }
     }
+
+    func testSutPrintsSelectModeMessageIfMultiplayerGameFinished() {
+        let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: 50))
+
+        sut.processInput("2")
+        sut.processInput("Foo, Bar, Baz")
+        _ = sut.flushOutput()
+        sut.processInput("50")
+
+        let actual = sut.flushOutput()
+
+        let expected =
+            """
+           1: Single player game
+           2: Multiplayer game
+           3: Exit
+           """ + "\n" + "Enter selection: "
+
+        XCTAssertTrue(actual.hasSuffix(expected), actual)
+    }
 }
