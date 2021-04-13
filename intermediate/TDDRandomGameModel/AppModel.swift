@@ -97,8 +97,10 @@ public final class AppModel {
 
             if guess < answer {
                 self.outputBuffer.append("\(player)'s guess is too low." + "\n")
+                return self.getMultiPlayerGameProcessor(players, answer: answer, tries: tries + 1)
             } else if guess > answer {
                 self.outputBuffer.append("\(player)'s guess is too high." + "\n")
+                return self.getMultiPlayerGameProcessor(players, answer: answer, tries: tries + 1)
             } else {
                 self.outputBuffer.append("Correct! ")
                 self.outputBuffer.append("\(player) wins." + "\n")
@@ -106,7 +108,7 @@ public final class AppModel {
 
                 return .none
             }
-            return self.getMultiPlayerGameProcessor(players, answer: answer, tries: tries + 1)
+
         }
     }
 }
