@@ -27,7 +27,7 @@ public final class AppModel {
     }
 
     public func processInput(_ input: String) {
-        self.processor = self.processor.run(input: input)
+        self.processor = self.processor(input: input)
     }
 
     private func processModeSelection(_ input: String) -> Processor {
@@ -43,7 +43,11 @@ public final class AppModel {
                                                      tries: 1)
         } else if input == "2" {
             self.output = "Multiplayer game" + "\n" + "Enter player names separated with commas: "
-            return .none
+            return Processor { [weak self] _ in
+                self?.output = "I'm thinking of a number between 1 and 100."
+
+                return .none
+            }
         }else {
             self.isCompleted = true
 
@@ -81,10 +85,14 @@ final class Processor {
         self.closure = closure
     }
 
-    let closure: ((String) -> Processor)?
+    private let closure: ((String) -> Processor)?
 
     func run(input: String) -> Processor {
-        return closure?(input) ?? Processor(closure: nil)
+        return closure?(input) ?? .none
+    }
+
+    func callAsFunction(input: String) -> Processor {
+        self.run(input: input)
     }
 }
 
