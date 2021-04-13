@@ -75,11 +75,15 @@ public final class AppModel {
 
     private func getMultiPlayerGameProcessor() -> Processor {
         return Processor { [weak self] input in
-            let players = input.split(separator: ",").map { String($0) }
+            let players = input.split(separator: ",").map { String($0).trimmingCharacters(in: .whitespacesAndNewlines) }
             self?.output = "I'm thinking of a number between 1 and 100."
             self?.output += "Enter \(players[0])'s guess: "
 
-            return .none
+            return Processor { [weak self] _ in
+                self?.output = "Enter \(players[1])'s guess: "
+
+                return .none
+            }
         }
     }
 }
