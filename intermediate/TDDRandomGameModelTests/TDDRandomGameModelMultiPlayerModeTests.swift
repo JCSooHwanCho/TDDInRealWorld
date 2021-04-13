@@ -128,7 +128,29 @@ class TDDRandomGameModelMultiPlayerModeTests: XCTestCase {
 
             let actual = sut.flushOutput()
 
-            XCTAssertTrue(actual.hasPrefix("\(lastPlayer)'s guess is too low" + "\n"), actual)
+            XCTAssertTrue(actual.hasPrefix("\(lastPlayer)'s guess is too low." + "\n"), actual)
+        }
+    }
+
+    func testSutCorrectlyPrintsTooHighMessageInMultiPlayerGame() {
+        let testCase = [(50, 60, 1, "Foo"),
+                        (9, 81, 2, "Bar")]
+
+        for (answer, guess, fails, lastPlayer) in testCase {
+            let sut = AppModel(generator: PositiveIntegerGeneratorStub(numbers: answer))
+            sut.processInput("2")
+            sut.processInput("Foo, Bar, Baz")
+
+            for _ in 0..<(fails-1) {
+                sut.processInput("\(guess)")
+            }
+
+            _ = sut.flushOutput()
+            sut.processInput("\(guess)")
+
+            let actual = sut.flushOutput()
+
+            XCTAssertTrue(actual.hasPrefix("\(lastPlayer)'s guess is too high." + "\n"), actual)
         }
     }
 }
