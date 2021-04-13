@@ -41,10 +41,13 @@ public final class AppModel {
 
             return self.getSinglePlayerGameProcessor(answer: self.generator.generateLessThanOrEqualToHundread(),
                                                      tries: 1)
-        } else {
+        } else if input == "2" {
+            self.output = "Multiplayer game" + "\n" + "Enter player names separated with commas: "
+            return .none
+        }else {
             self.isCompleted = true
 
-            return Processor(closure: nil)
+            return .none
         }
     }
 
@@ -52,7 +55,7 @@ public final class AppModel {
         return Processor { [weak self] input in
             guard let self = self,
                   let guess = Int(input)
-            else { return Processor(closure: nil) }
+            else { return .none }
 
             if guess < answer {
                 self.output = "Your guess is too low." + "\n" + "Enter your guess: "
@@ -72,6 +75,8 @@ public final class AppModel {
 }
 
 final class Processor {
+    static let none: Processor = Processor(closure: nil)
+
     init(closure: ((String) -> Processor)?) {
         self.closure = closure
     }
