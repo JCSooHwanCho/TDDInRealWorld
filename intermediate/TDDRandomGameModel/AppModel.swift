@@ -92,6 +92,7 @@ public final class AppModel {
 
         return Processor { [weak self] _ in
             guard let self = self else { return .none }
+            self.outputBuffer.append("\(players[(tries - 1) % players.count])'s guess is too low" + "\n")
             return self.getMultiPlayerGameProcessor(players, tries: tries + 1)
         }
     }
