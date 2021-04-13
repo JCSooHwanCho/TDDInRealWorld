@@ -106,7 +106,7 @@ public final class AppModel {
                 self.outputBuffer.append("\(player) wins." + "\n")
                 self.outputBuffer.append(Self.selectModeMessage)
 
-                return .none
+                return Processor(closure: self.processModeSelection(_:))
             }
 
         }
