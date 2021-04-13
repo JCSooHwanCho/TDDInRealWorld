@@ -48,7 +48,7 @@ public final class AppModel {
                                                      tries: 1)
         } else if input == "2" {
             self.outputBuffer.append("Multiplayer game" + "\n" + "Enter player names separated with commas: ")
-            return self.startMultiPlayerGameProcessor()
+            return self.startMultiPlayerGameProcessor(answer: self.generator.generateLessThanOrEqualToHundread())
         }else {
             self.isCompleted = true
 
@@ -78,23 +78,29 @@ public final class AppModel {
         }
     }
 
-    private func startMultiPlayerGameProcessor() -> Processor {
+    private func startMultiPlayerGameProcessor(answer: Int) -> Processor {
         return Processor { [weak self] input in
             guard let self = self else { return .none }
             let players = input.split(separator: ",").map { String($0).trimmingCharacters(in: .whitespacesAndNewlines) }
             self.outputBuffer.append("I'm thinking of a number between 1 and 100.")
-            return self.getMultiPlayerGameProcessor(players, tries: 1)
+            return self.getMultiPlayerGameProcessor(players, answer: answer, tries: 1)
         }
     }
 
-    private func getMultiPlayerGameProcessor(_ players: [String], tries: Int) -> Processor {
+    private func getMultiPlayerGameProcessor(_ players: [String], answer: Int, tries: Int) -> Processor {
         let player = players[(tries - 1) % players.count]
         self.outputBuffer.append("Enter \(player)'s guess: ")
 
-        return Processor { [weak self] _ in
-            guard let self = self else { return .none }
-            self.outputBuffer.append("\(player)'s guess is too low." + "\n")
-            return self.getMultiPlayerGameProcessor(players, tries: tries + 1)
+        return Processor { [weak self] input in
+            guard let self = self,
+                  let guess = Int(input) else { return .none }
+
+            if guess < answer {
+                self.outputBuffer.append("\(player)'s guess is too low." + "\n")
+            } else {
+                self.outputBuffer.append("\(player)'s guess is too high." + "\n")
+            }
+            return self.getMultiPlayerGameProcessor(players, answer: answer, tries: tries + 1)
         }
     }
 }
